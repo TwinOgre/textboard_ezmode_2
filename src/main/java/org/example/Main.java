@@ -30,6 +30,7 @@ public class Main {
                 if(loginedUser.getLoginId() == null){
                     System.out.println("게시물 등록을 하려면 먼저 로그인을 해주세요");
                     System.out.println("아이디가 없다면 회원가입을 해주세요");
+
                     continue;
                 }
                 System.out.printf("제목 : ");
@@ -42,12 +43,16 @@ public class Main {
 
                 lastId++;
             } else if (command.equals("목록")) {
-                System.out.println("번호 / 제목 / 내용 / 작가");
+                System.out.println("번호 / 제목 / 내용 / 작성자");
                 System.out.println("----------------");
                 for (Article article : articleList) {
                     System.out.printf("%d,   %s,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent(),article.getAuthor());
                 }
             } else if (command.equals("삭제")) {
+                if(loginedUser.getLoginId() == null){
+                    System.out.println("게시물 삭제를 하려면 먼저 로그인을 해주세요");
+                    continue;
+                }
                 System.out.println("삭제할 id를 입력하세요");
                 System.out.printf("ID : ");
                 int removeId = Integer.parseInt(sc.nextLine().trim());
@@ -59,6 +64,10 @@ public class Main {
                 }
                 System.out.println(removeId + "번 게시글이 삭제되었습니다.");
             } else if (command.equals("수정")) {
+                if(loginedUser.getLoginId() == null){
+                    System.out.println("게시물 수정을 하려면 먼저 로그인을 해주세요");
+                    continue;
+                }
                 System.out.println("수정할 id를 입력하세요");
                 System.out.printf("ID : ");
                 int modifyId = Integer.parseInt(sc.nextLine().trim());
