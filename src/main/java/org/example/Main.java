@@ -21,9 +21,9 @@ public class Main {
             if(command.equals("종료")){
                 break;
             } else if(command.equals("등록")){
-                System.out.printf("제목) ");
+                System.out.printf("제목 : ");
                 String title = sc.nextLine();
-                System.out.printf("내용) ");
+                System.out.printf("내용 : ");
                 String content = sc.nextLine();
 
                 Article article = new Article(lastId, title, content);
@@ -31,7 +31,11 @@ public class Main {
 
                 lastId++;
             } else if(command.equals("목록")){
-                System.out.println(articleList.size());
+                System.out.println("번호/제목/ 내용");
+                System.out.println("----------------");
+                for( Article article : articleList){
+                    System.out.printf("%d,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent());
+                }
             }
         }
 
