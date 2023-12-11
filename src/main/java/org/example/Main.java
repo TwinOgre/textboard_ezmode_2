@@ -8,16 +8,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        System.out.println("== 시스템 시작==");
-
-
         List<Article> articleList = new ArrayList<>();
         List<Member> memeberList = new ArrayList<>();
+
+        System.out.println("== 시스템 시작==");
+        Member member1 = new Member( 1, "user1", "1234", LocalDate.now().toString());
+        memeberList.add(member1);
+        Member member2 = new Member( 2, "user2", "1234", LocalDate.now().toString());
+        memeberList.add(member2);
+        Member member3 = new Member( 3, "user3", "1234", LocalDate.now().toString());
+        memeberList.add(member3);
+
+
+
         int lastId = 1;
         int lastMemberId = 1;
 
         LoginedUser loginedUser = new LoginedUser();
+        MemberController memberController = new MemberController();
 
         while (true) {
             System.out.printf("명령) ");
@@ -31,27 +39,34 @@ public class Main {
                     System.out.println("게시물 등록을 하려면 먼저 로그인을 해주세요");
                     System.out.println("아이디가 없다면 회원가입을 해주세요");
 
-                    continue;
+                    memberController.login(loginedUser,memeberList);
+                    if(loginedUser.getLoginId() == null){
+                        continue;
+                    }
                 }
                 System.out.printf("제목 : ");
                 String title = sc.nextLine();
                 System.out.printf("내용 : ");
                 String content = sc.nextLine();
                 // Article(id, 제목, 내용, 작가)
-                Article article = new Article(lastId, title, content, loginedUser.getLoginId());
+                Article article = new Article(lastId, title, content,LocalDate.now().toString() ,loginedUser.getLoginId());
                 articleList.add(article);
 
                 lastId++;
             } else if (command.equals("목록")) {
-                System.out.println("번호 / 제목 / 내용 / 작성자");
-                System.out.println("----------------");
+                System.out.println("번호 / 제목 / 내용 / 등록일 / 작성자");
+                System.out.println("------------------------------");
                 for (Article article : articleList) {
-                    System.out.printf("%d,   %s,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent(),article.getAuthor());
+                    System.out.printf("%d,   %s,   %s,  %s,   %s\n", article.getId(), article.getTitle(), article.getContent(), LocalDate.now().toString(),article.getAuthor());
                 }
             } else if (command.equals("삭제")) {
                 if(loginedUser.getLoginId() == null){
                     System.out.println("게시물 삭제를 하려면 먼저 로그인을 해주세요");
-                    continue;
+
+                    memberController.login(loginedUser,memeberList);
+                    if(loginedUser.getLoginId() == null){
+                        continue;
+                    }
                 }
                 System.out.println("삭제할 id를 입력하세요");
                 System.out.printf("ID : ");
@@ -66,7 +81,11 @@ public class Main {
             } else if (command.equals("수정")) {
                 if(loginedUser.getLoginId() == null){
                     System.out.println("게시물 수정을 하려면 먼저 로그인을 해주세요");
-                    continue;
+
+                    memberController.login(loginedUser,memeberList);
+                    if(loginedUser.getLoginId() == null){
+                        continue;
+                    }
                 }
                 System.out.println("수정할 id를 입력하세요");
                 System.out.printf("ID : ");
@@ -99,9 +118,9 @@ public class Main {
                     System.out.printf("아이디 : ");
                     String nameId = sc.nextLine().trim();
                     boolean isDuplicated = false;
-                    for (Member member1 : memeberList) {
+                    for (Member member9 : memeberList) {
                         // 아이디 중복이 없다면
-                        if (nameId.equals(member1.getNameId())) {
+                        if (nameId.equals(member9.getNameId())) {
                             System.out.println("중복 아이디가 존재합니다.");
                             isDuplicated = true;
 
@@ -148,32 +167,18 @@ public class Main {
                 }
             }  else if(command.equals("로그인")){
                 // 아이디
+                memberController.login(loginedUser,memeberList);
 
-                System.out.println("아이디를 입력하세요");
-                System.out.printf("아이디 : ");
-                String userId = sc.nextLine().trim();
 
-                for(int i = 0; i < memeberList.size(); i++){
-                    if(userId.equals(memeberList.get(i).getNameId())){
-                        while(true){
-                            System.out.println("비밀번호를 입력하세요");
-                            System.out.printf("비밀번호 : ");
-                            String password = sc.nextLine().trim();
-
-                            if(password.equals(memeberList.get(i).getPassword())){
-                                loginedUser.setLoginId(userId);
-                                loginedUser.setLoginPassword(password);
-                                System.out.println("로그인을 환영합니다. "+ loginedUser.getLoginId()+"님");
-                                break;
-                            } else {
-                                System.out.println("== 비밀번호를 틀렸습니다. ==");
-                            }
-                        }
-                    } else {
-                        System.out.println("== 아이디가 존재하지 않습니다. ==");
-                    }
-                }
                 // 로그인 객체 어딘가에 저장
+            } else if(command.equals("로그아웃")){
+               if(loginedUser.getLoginId() == null){
+                   System.out.println("로그인 상태가 아닙니다.");
+                   continue;
+               }
+
+               loginedUser.setLoginId(null);
+                System.out.println("로그아웃 되었습니다.");
             }
         }
 
