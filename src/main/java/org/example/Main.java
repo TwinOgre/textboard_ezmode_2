@@ -16,6 +16,9 @@ public class Main {
         List<Member> memeberList = new ArrayList<>();
         int lastId = 1;
         int lastMemberId = 1;
+
+        LoginedUser loginedUser = new LoginedUser();
+
         while (true) {
             System.out.printf("명령) ");
             String command = sc.nextLine().trim();
@@ -24,20 +27,25 @@ public class Main {
             if (command.equals("종료")) {
                 break;
             } else if (command.equals("등록")) {
+                if(loginedUser.getLoginId() == null){
+                    System.out.println("게시물 등록을 하려면 먼저 로그인을 해주세요");
+                    System.out.println("아이디가 없다면 회원가입을 해주세요");
+                    continue;
+                }
                 System.out.printf("제목 : ");
                 String title = sc.nextLine();
                 System.out.printf("내용 : ");
                 String content = sc.nextLine();
 
-                Article article = new Article(lastId, title, content);
+                Article article = new Article(lastId, title, content, loginedUser.getLoginId());
                 articleList.add(article);
 
                 lastId++;
             } else if (command.equals("목록")) {
-                System.out.println("번호/제목/ 내용");
+                System.out.println("번호 / 제목 / 내용 / 작가");
                 System.out.println("----------------");
                 for (Article article : articleList) {
-                    System.out.printf("%d,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent());
+                    System.out.printf("%d,   %s,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent(),article.getAuthor());
                 }
             } else if (command.equals("삭제")) {
                 System.out.println("삭제할 id를 입력하세요");
@@ -129,6 +137,32 @@ public class Main {
                 for (Member member : memeberList) {
                     System.out.println(member.getId() + " " + member.getNameId() + " " + member.getPassword() + " " + member.getRegDate() + "\n");
                 }
+            }  else if(command.equals("로그인")){
+                // 아이디
+
+                System.out.println("아이디를 입력하세요");
+                System.out.printf("아이디 : ");
+                String userId = sc.nextLine().trim();
+
+                for(int i = 0; i < memeberList.size(); i++){
+                    if(userId.equals(memeberList.get(i).getNameId())){
+                        while(true){
+                            System.out.println("비밀번호를 입력하세요");
+                            System.out.printf("비밀번호 : ");
+                            String password = sc.nextLine().trim();
+
+                            if(password.equals(memeberList.get(i).getPassword())){
+                                loginedUser.setLoginId(userId);
+                                loginedUser.setLoginPassword(password);
+                                System.out.println("로그인을 환영합니다. "+ loginedUser.getLoginId()+"님");
+                                break;
+                            }
+                        }
+                    } else {
+                        System.out.println("else");
+                    }
+                }
+                // 로그인 객체 어딘가에 저장
             }
         }
 

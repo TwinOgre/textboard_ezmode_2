@@ -11,4 +11,5 @@ public class Article {
     int id;
     String title;
     String content;
+    String author;
 }
