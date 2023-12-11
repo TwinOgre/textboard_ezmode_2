@@ -117,7 +117,7 @@ public class Main {
                             continue;
                         }
                         if(!Objects.equals(article.getAuthor(), loginedUser.getLoginId())){
-                            System.out.println("해당 작성자만 삭제가 가능합니다.");
+                            System.out.println("해당 작성자만 수정이 가능합니다.");
                             break;
                         }
                         Article modifyArticle = articleList.get(i);
