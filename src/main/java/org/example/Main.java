@@ -36,7 +36,7 @@ public class Main {
                 String title = sc.nextLine();
                 System.out.printf("내용 : ");
                 String content = sc.nextLine();
-
+                // Article(id, 제목, 내용, 작가)
                 Article article = new Article(lastId, title, content, loginedUser.getLoginId());
                 articleList.add(article);
 
@@ -156,10 +156,12 @@ public class Main {
                                 loginedUser.setLoginPassword(password);
                                 System.out.println("로그인을 환영합니다. "+ loginedUser.getLoginId()+"님");
                                 break;
+                            } else {
+                                System.out.println("== 비밀번호를 틀렸습니다. ==");
                             }
                         }
                     } else {
-                        System.out.println("else");
+                        System.out.println("== 아이디가 존재하지 않습니다. ==");
                     }
                 }
                 // 로그인 객체 어딘가에 저장
