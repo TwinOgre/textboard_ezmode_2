@@ -47,6 +47,27 @@ public class Main {
                     }
                 }
                 System.out.println(removeId + "번 게시글이 삭제되었습니다.");
+            } else if(command.equals("수정")){
+                System.out.println("수정할 id를 입력하세요");
+                System.out.printf("ID : ");
+                int modifyId = Integer.parseInt(sc.nextLine().trim());
+
+                for(int i = 0; i < articleList.size(); i++){
+                    if(modifyId == articleList.get(i).getId()){
+                        Article article = articleList.get(i);
+                        System.out.printf("기존 제목 : %s \n", article.getTitle());
+                        System.out.printf("수정할 제목 : ");
+                        String title = sc.nextLine();
+
+                        System.out.printf("기존 내용 : %s \n", article.getContent());
+                        System.out.printf("수정할 내용 : ");
+                        String content = sc.nextLine();
+
+                        article.setTitle(title);
+                        article.setContent(content);
+                    }
+                }
+                System.out.println(modifyId + "번 게시글이 수정되었습니다.");
             }
         }
 
