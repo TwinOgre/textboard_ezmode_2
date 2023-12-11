@@ -36,6 +36,17 @@ public class Main {
                 for( Article article : articleList){
                     System.out.printf("%d,   %s,   %s\n", article.getId(), article.getTitle(), article.getContent());
                 }
+            } else if(command.equals("삭제")){
+                System.out.println("삭제할 id를 입력하세요");
+                System.out.printf("ID : ");
+                int removeId = Integer.parseInt(sc.nextLine().trim());
+
+                for(int i = 0; i < articleList.size(); i++){
+                    if(removeId == articleList.get(i).getId()){
+                        articleList.remove(articleList.get(i));
+                    }
+                }
+                System.out.println(removeId + "번 게시글이 삭제되었습니다.");
             }
         }
 
