@@ -1,4 +1,4 @@
-package org.example;
+package org.example.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

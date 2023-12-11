@@ -1,6 +1,8 @@
-package org.example;
+package org.example.member;
 
-import java.util.ArrayList;
+import org.example.LoginedUser;
+import org.example.member.Member;
+
 import java.util.List;
 import java.util.Scanner;
 
