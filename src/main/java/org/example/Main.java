@@ -12,7 +12,6 @@ public class Main {
         System.out.println("== 시스템 시작==");
 
 
-
         List<Article> articleList = new ArrayList<>();
         List<Member> memeberList = new ArrayList<>();
         int lastId = 1;
@@ -82,16 +81,23 @@ public class Main {
                     System.out.println("아이디를 입력하세요");
                     System.out.printf("아이디 : ");
                     String nameId = sc.nextLine().trim();
+                    boolean isDuplicated = false;
                     for (Member member1 : memeberList) {
                         // 아이디 중복이 없다면
                         if (nameId.equals(member1.getNameId())) {
-                            System.out.println("아이디 확인");
-                            member.setNameId(nameId);
-                            break;
+                            System.out.println("중복 아이디가 존재합니다.");
+                            isDuplicated = true;
+
                         }
                     }
-                    System.out.println("중복 아이디가 존재합니다.");
-                   break;
+                    // 중복 아이디가 없는 경우
+                    if (!isDuplicated) {
+                        System.out.println("아이디 확인");
+                        member.setNameId(nameId);
+                        break;
+                    }
+
+
                 }
 
                 // 1. 비번 입력 , 2. 비밀번호 확인 3. 비번 != 확인비번 틀렸다고 안내 다시입력
