@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class App {
+
     public void run(){
         List<Article> articleList = new ArrayList<>();
         List<Member> memeberList = new ArrayList<>();
