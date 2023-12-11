@@ -3,6 +3,7 @@ package org.example;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -72,11 +73,22 @@ public class Main {
                 System.out.printf("ID : ");
                 int removeId = Integer.parseInt(sc.nextLine().trim());
 
+                Article article = null;
                 for (int i = 0; i < articleList.size(); i++) {
                     if (removeId == articleList.get(i).getId()) {
-                        articleList.remove(articleList.get(i));
+                        article = articleList.get(i);
+
                     }
                 }
+                if(article == null){
+                    System.out.println("해당 게시글은 존재하지 않습니다.");
+                    continue;
+                }
+                if(article.getAuthor() != loginedUser.getLoginId()){
+                    System.out.println("해당 작성자만 삭제가 가능합니다.");
+                    continue;
+                }
+                articleList.remove(article);
                 System.out.println(removeId + "번 게시글이 삭제되었습니다.");
             } else if (command.equals("수정")) {
                 if(loginedUser.getLoginId() == null){
@@ -93,7 +105,22 @@ public class Main {
 
                 for (int i = 0; i < articleList.size(); i++) {
                     if (modifyId == articleList.get(i).getId()) {
-                        Article article = articleList.get(i);
+                        Article article = null;
+                        for (int t = 0; t < articleList.size(); t++) {
+                            if (modifyId == articleList.get(i).getId()) {
+                                article = articleList.get(i);
+
+                            }
+                        }
+                        if(article == null){
+                            System.out.println("해당 게시글은 존재하지 않습니다.");
+                            continue;
+                        }
+                        if(!Objects.equals(article.getAuthor(), loginedUser.getLoginId())){
+                            System.out.println("해당 작성자만 삭제가 가능합니다.");
+                            break;
+                        }
+                        Article modifyArticle = articleList.get(i);
                         System.out.printf("기존 제목 : %s \n", article.getTitle());
                         System.out.printf("수정할 제목 : ");
                         String title = sc.nextLine();
@@ -102,11 +129,11 @@ public class Main {
                         System.out.printf("수정할 내용 : ");
                         String content = sc.nextLine();
 
-                        article.setTitle(title);
-                        article.setContent(content);
+                        modifyArticle.setTitle(title);
+                        modifyArticle.setContent(content);
+                        System.out.println(modifyId + "번 게시글이 수정되었습니다.");
                     }
                 }
-                System.out.println(modifyId + "번 게시글이 수정되었습니다.");
             } else if (command.equals("회원가입")) {
                 Member member = new Member(lastMemberId, "0", "0", "0");
 

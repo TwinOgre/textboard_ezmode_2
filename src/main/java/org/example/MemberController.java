@@ -37,9 +37,6 @@ public class MemberController {
                         System.out.println("== 비밀번호를 틀렸습니다. ==");
                     }
                 }
-            } else if(!userId.equals(memeberList.get(i).getNameId())){
-                System.out.println("아이디가 존재하지 않습니다.");
-                return;
             }
         }
     }
